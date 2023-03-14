@@ -12,7 +12,7 @@
         }
 
     </style>
-    <title>List</title>
+    <title>Detail</title>
 </head>
 <body>
     <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -38,28 +38,34 @@
   
       <div class="container">
         <div class="page-header">
-          <h1>List Page <small>Dept List</small></h1>
+          <h1>Detail Page <small><%=dept.DEPTNO %></small></h1>
         </div>
-        <table class="table">
-          <thead>
-            <tr>
-              <th>deptno</th>
-              <th>dname</th>
-              <th>loc</th>
-            </tr>
-          </thead>
-          <tbody>
-            <% result.forEach(function(ele, idx){ %>
-              <tr>
-                <td><a href="<%=ele.DEPTNO%>"><%=ele.DEPTNO%></a></td>
-                <td><a href="<%=ele.DEPTNO%>"><%=ele.DNAME%></a></td>
-                <td><a href="<%=ele.DEPTNO%>"><%=ele.LOC%></a></td>
-              </tr>
-            <% }); %>
-          </tbody>
-        </table>
-        <p><a href="add" class="btn btn-primary btn-block" role="button">입력</a></p>
+        <form class="form-signin" action="./<%=dept.DEPTNO%>" method="post">
+          <h2 class="form-signin-heading">Detail</h2>
+          <label for="inputEmail" class="sr-only"></label>
+          <input type="text" name="deptno" id="deptno" class="form-control" value="<%=dept.DEPTNO%>" required autofocus readonly>
+          <label for="inputPassword" class="sr-only"></label>
+          <input type="text" name="dname" id="dname" class="form-control" value="<%=dept.DNAME%>" required readonly>
+          <label for="inputPassword" class="sr-only"></label>
+          <input type="text" name="loc" id="loc" class="form-control" value="<%=dept.LOC%>" required readonly>
+          <button class="btn btn-lg btn-primary btn-block" type="submit">수정</button>
+          <button class="btn btn-lg btn-danger btn-block" type="button">삭제</button>
+        </form>
   
       </div><!-- /.container -->  
+      <script type="text/javascript">
+        $('form .btn-danger').click(function(){
+          $.ajax('<%=dept.DEPTNO%>',{
+            type: 'delete'
+          }).done(function(){
+            location.href="./";
+          });
+        });
+        $('form').one('submit', function(){
+          $(this).find('input').not(":eq(0)").removeProp('readonly');
+          return false;
+        });
+
+      </script>
 </body>
 </html>
